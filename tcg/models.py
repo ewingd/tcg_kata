@@ -1,12 +1,6 @@
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
 class Player:
-    def __init__(self):
-        self._health = 30
-        self._mana = 0
-
-    @property
-    def health(self):
-        return self._health
-
-    @property
-    def mana(self):
-        return self._mana
+    health: int = 30
+    mana: int = 0

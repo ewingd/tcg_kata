@@ -4,5 +4,6 @@ init:
 
 test:
 	py.test tests
+	mypy tcg
 
 .PHONY: init test

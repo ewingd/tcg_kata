@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Tuple
+import random
 
 
 @dataclass(frozen=True)
@@ -24,3 +25,8 @@ class Deck:
 
     def draw(self, count: int=1):
         return self.cards[:count], Deck(self.cards[count:])
+
+    def shuffle(self):
+        cards = list(self.cards)
+        random.shuffle(cards)
+        return Deck(tuple(cards))

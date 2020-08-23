@@ -20,6 +20,15 @@ class TestDeck:
         assert len(deck.cards) == 19
         assert card + deck.cards == card_list
 
+    def test_a_deck_can_be_shuffled(self):
+        deck = Deck()
+        card_list = self._get_default_deck()
+        deck = deck.shuffle()
+
+        assert len(deck.cards) == 20
+        # Decks should only match if the cards are in the same order
+        assert card_list != deck.cards
+
     def _get_default_deck(self):
         return (
             Card(0),

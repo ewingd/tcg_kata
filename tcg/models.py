@@ -21,3 +21,6 @@ def make_default_deck():
 @dataclass(frozen=True)
 class Deck:
     cards: Tuple[Card] = field(default_factory=make_default_deck)
+
+    def draw(self, count: int=1):
+        return self.cards[:count], Deck(self.cards[count:])

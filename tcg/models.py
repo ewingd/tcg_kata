@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Tuple
+from typing import Tuple, Optional
 import random
 
 
@@ -48,21 +48,23 @@ class Player:
             deck
         )
 
+def new_player():
+    return Player()
+
 @dataclass(frozen=True)
 class GameState:
-    player: Player
-    opponent: Player
+    player: Player = field(default_factory=new_player)
+    opponent: Player = field(default_factory=new_player)
+    current_player: Optional[Player] = None
 
+    def start(self) -> GameState:
+        current_player = random.choice((self.player, self.opponent))
 
-def new_game() -> GameState:
-    first_player = random.choice((0, 1))
-    player = Player(is_active=(first_player==0))
-    opponent = Player(is_active=(first_player==1))
+        player = self.player.draw(3 if current_player is self.player else 4)
+        opponent = self.opponent.draw(3 if current_player is self.opponent else 4)
 
-    player = player.draw(3 if player.is_active else 4)
-    opponent = opponent.draw(3 if opponent.is_active else 4)
-
-    return GameState(
-        player,
-        opponent
-    )
+        return GameState(
+            player,
+            opponent,
+            current_player
+        )

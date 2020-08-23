@@ -1,8 +1,8 @@
 from .context import tcg
 from tcg.models import GameState
 
-class TestGameState:
 
+class TestGameState:
     def test_player_starting_hand_sizes(self):
         game = GameState().start()
         assert len(game.player.hand) + len(game.opponent.hand) == 7

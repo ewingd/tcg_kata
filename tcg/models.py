@@ -41,14 +41,32 @@ class Player:
 
     def draw(self, count: int = 1) -> Player:
         hand, deck = self.deck.draw(count)
-        return Player(self.health, self.mana, self.max_mana, self.hand + hand, deck)
+        return Player(
+            health=self.health,
+            mana=self.mana,
+            max_mana=self.max_mana,
+            hand=self.hand + hand,
+            deck=deck,
+        )
 
     def increase_max_mana(self) -> Player:
         max_mana = min(self.max_mana + 1, 10)
-        return Player(self.health, self.mana, max_mana, self.hand, self.deck)
+        return Player(
+            health=self.health,
+            mana=self.mana,
+            max_mana=max_mana,
+            hand=self.hand,
+            deck=self.deck,
+        )
 
     def fill_mana(self) -> Player:
-        return Player(self.health, self.max_mana, self.max_mana, self.hand, self.deck)
+        return Player(
+            health=self.health,
+            mana=self.max_mana,
+            max_mana=self.max_mana,
+            hand=self.hand,
+            deck=self.deck,
+        )
 
 
 def new_player():
@@ -75,9 +93,9 @@ class GameState:
         opponent = self.opponent.draw(3 if current_player is self.opponent else 4)
 
         if len(player.hand) == 3:
-            return GameState(player, opponent, player)
+            return GameState(player=player, opponent=opponent, current_player=player)
         else:
-            return GameState(player, opponent, opponent)
+            return GameState(player=player, opponent=opponent, current_player=opponent)
 
     def start_new_turn(self) -> GameState:
 
@@ -94,6 +112,14 @@ class GameState:
         current_player = current_player.draw()
 
         if player == "player":
-            return GameState(current_player, self.opponent, current_player)
+            return GameState(
+                player=current_player,
+                opponent=self.opponent,
+                current_player=current_player,
+            )
         else:
-            return GameState(self.player, current_player, current_player)
+            return GameState(
+                player=self.player,
+                opponent=current_player,
+                current_player=current_player,
+            )

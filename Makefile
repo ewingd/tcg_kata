@@ -6,4 +6,8 @@ test:
 	py.test tests
 	mypy tcg
 
-.PHONY: init test
+lint:
+	black tcg/
+	black tests/
+
+.PHONY: init test lint

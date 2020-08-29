@@ -36,16 +36,23 @@ class Player:
     health: int = 30
     mana: int = 0
     hand: Tuple = ()
-    is_active: bool = False
     deck: Deck = field(default_factory=new_default_deck)
 
     def draw(self, count: int = 1) -> Player:
         hand, deck = self.deck.draw(count)
-        return Player(self.health, self.mana, self.hand + hand, self.is_active, deck)
+        return Player(self.health, self.mana, self.hand + hand, deck)
+
+    def increase_max_mana(self) -> Player:
+        mana = min(self.mana + 1, 10)
+        return Player(self.health, mana, self.hand, self.deck)
 
 
 def new_player():
     return Player()
+
+
+class GameNotStartedException(Exception):
+    pass
 
 
 @dataclass(frozen=True)
@@ -54,6 +61,9 @@ class GameState:
     opponent: Player = field(default_factory=new_player)
     current_player: Optional[Player] = None
 
+    def is_active(self, player: Player) -> bool:
+        return self.current_player is player
+
     def start(self) -> GameState:
         current_player = random.choice((self.player, self.opponent))
 
@@ -61,3 +71,20 @@ class GameState:
         opponent = self.opponent.draw(3 if current_player is self.opponent else 4)
 
         return GameState(player, opponent, current_player)
+
+    def start_new_turn(self) -> GameState:
+
+        if self.current_player is None:
+            raise GameNotStartedException()
+
+        if self.is_active(self.player):
+            player = "player"
+        else:
+            player = "opponent"
+
+        current_player = self.current_player.increase_max_mana()
+
+        if player == "player":
+            return GameState(current_player, self.opponent, current_player)
+        else:
+            return GameState(self.player, current_player, current_player)

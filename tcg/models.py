@@ -74,7 +74,10 @@ class GameState:
         player = self.player.draw(3 if current_player is self.player else 4)
         opponent = self.opponent.draw(3 if current_player is self.opponent else 4)
 
-        return GameState(player, opponent, current_player)
+        if len(player.hand) == 3:
+            return GameState(player, opponent, player)
+        else:
+            return GameState(player, opponent, opponent)
 
     def start_new_turn(self) -> GameState:
 
@@ -88,6 +91,7 @@ class GameState:
 
         current_player = self.current_player.increase_max_mana()
         current_player = current_player.fill_mana()
+        current_player = current_player.draw()
 
         if player == "player":
             return GameState(current_player, self.opponent, current_player)

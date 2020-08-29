@@ -24,3 +24,11 @@ class TestGameState:
 
         assert game.current_player.max_mana == 2
         assert game.current_player.mana == 2
+
+    def test_a_card_is_drawn_at_start_of_turn(self):
+        game = GameState().start()
+
+        assert len(game.current_player.hand) == 3
+        game = game.start_new_turn()
+
+        assert len(game.current_player.hand) == 4

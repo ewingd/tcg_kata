@@ -12,9 +12,9 @@ class TestGameState:
     def test_mana_increases_at_start_of_turn_to_a_max_of_10(self):
         game = GameState().start()
         max_mana = 0
-        assert game.current_player.mana == max_mana
+        assert game.current_player.max_mana == max_mana
         for _ in range(11):
             game = game.start_new_turn()
             max_mana += 1
             max_mana = min(max_mana, 10)  # Cap at 10 mana
-            assert game.current_player.mana == max_mana
+            assert game.current_player.max_mana == max_mana

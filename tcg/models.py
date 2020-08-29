@@ -35,16 +35,17 @@ class Deck:
 class Player:
     health: int = 30
     mana: int = 0
+    max_mana: int = 0
     hand: Tuple = ()
     deck: Deck = field(default_factory=new_default_deck)
 
     def draw(self, count: int = 1) -> Player:
         hand, deck = self.deck.draw(count)
-        return Player(self.health, self.mana, self.hand + hand, deck)
+        return Player(self.health, self.mana, self.max_mana, self.hand + hand, deck)
 
     def increase_max_mana(self) -> Player:
-        mana = min(self.mana + 1, 10)
-        return Player(self.health, mana, self.hand, self.deck)
+        max_mana = min(self.max_mana + 1, 10)
+        return Player(self.health, self.mana, max_mana, self.hand, self.deck)
 
 
 def new_player():

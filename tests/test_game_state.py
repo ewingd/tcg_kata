@@ -18,3 +18,9 @@ class TestGameState:
             max_mana += 1
             max_mana = min(max_mana, 10)  # Cap at 10 mana
             assert game.current_player.max_mana == max_mana
+
+    def test_mana_is_filled_at_start_of_turn(self):
+        game = GameState().start().start_new_turn().start_new_turn()
+
+        assert game.current_player.max_mana == 2
+        assert game.current_player.mana == 2

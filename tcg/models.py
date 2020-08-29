@@ -47,6 +47,9 @@ class Player:
         max_mana = min(self.max_mana + 1, 10)
         return Player(self.health, self.mana, max_mana, self.hand, self.deck)
 
+    def fill_mana(self) -> Player:
+        return Player(self.health, self.max_mana, self.max_mana, self.hand, self.deck)
+
 
 def new_player():
     return Player()
@@ -84,6 +87,7 @@ class GameState:
             player = "opponent"
 
         current_player = self.current_player.increase_max_mana()
+        current_player = current_player.fill_mana()
 
         if player == "player":
             return GameState(current_player, self.opponent, current_player)

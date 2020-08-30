@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Tuple, Optional
 import random
 
@@ -41,32 +41,14 @@ class Player:
 
     def draw(self, count: int = 1) -> Player:
         hand, deck = self.deck.draw(count)
-        return Player(
-            health=self.health,
-            mana=self.mana,
-            max_mana=self.max_mana,
-            hand=self.hand + hand,
-            deck=deck,
-        )
+        return replace(self, hand=self.hand + hand)
 
     def increase_max_mana(self) -> Player:
         max_mana = min(self.max_mana + 1, 10)
-        return Player(
-            health=self.health,
-            mana=self.mana,
-            max_mana=max_mana,
-            hand=self.hand,
-            deck=self.deck,
-        )
+        return replace(self, max_mana=max_mana)
 
     def fill_mana(self) -> Player:
-        return Player(
-            health=self.health,
-            mana=self.max_mana,
-            max_mana=self.max_mana,
-            hand=self.hand,
-            deck=self.deck,
-        )
+        return replace(self, mana=self.max_mana)
 
 
 def new_player():

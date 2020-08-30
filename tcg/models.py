@@ -89,9 +89,7 @@ class GameState:
         else:
             player = "opponent"
 
-        current_player = self.current_player.increase_max_mana()
-        current_player = current_player.fill_mana()
-        current_player = current_player.draw()
+        current_player = self.current_player.increase_max_mana().fill_mana().draw()
 
         if player == "player":
             return GameState(
